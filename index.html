@@ -3,225 +3,1330 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🎵✨ Astro-Chromatone ✨🎵</title>
+    <title>🎵✨ Astro-Chromatone Luxury ✨🎵 - Premium Cosmic Music Experience</title>
+    <meta name="description" content="Premium astrological music generation with advanced harmonics and real-time cosmic analysis">
+    
+    <!-- Premium CDN Dependencies -->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
     <script src="https://unpkg.com/tone@14.7.77/build/Tone.js"></script>
+    <script src="https://unpkg.com/three@0.155.0/build/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: linear-gradient(135deg, #0c0c0c 0%, #1a1a2e 25%, #16213e 50%, #0f1419 100%);
-            color: white;
-            min-height: 100vh;
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+            --glass-bg: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+            --shadow-luxury: 0 20px 60px rgba(0, 0, 0, 0.4);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.8);
+            --text-accent: #f093fb;
+            --backdrop-blur: backdrop-filter: blur(20px);
         }
-        .app { text-align: center; padding: 2rem; }
-        .header { margin-bottom: 3rem; }
-        .title {
-            font-size: 3rem;
-            background: linear-gradient(45deg, #667eea, #764ba2, #f093fb);
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(102, 126, 234, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(240, 147, 251, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(118, 75, 162, 0.1) 0%, transparent 50%),
+                linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 25%, #16213e 50%, #0f1419 75%, #000000 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        /* Luxury Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-10px) rotate(1deg); }
+            66% { transform: translateY(-5px) rotate(-1deg); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        @keyframes pulse-luxury {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(102, 126, 234, 0.3), 0 0 40px rgba(240, 147, 251, 0.2); 
+            }
+            50% { 
+                box-shadow: 0 0 30px rgba(102, 126, 234, 0.5), 0 0 60px rgba(240, 147, 251, 0.3); 
+            }
+        }
+
+        @keyframes gradient-shift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Luxury App Container */
+        .app {
+            min-height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Animated Background Particles */
+        .bg-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Luxury Header */
+        .luxury-header {
+            text-align: center;
+            padding: 4rem 2rem 3rem;
+            background: var(--glass-bg);
+            var(--backdrop-blur);
+            border-bottom: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        .luxury-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: var(--primary-gradient);
+        }
+
+        .luxury-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            background: var(--primary-gradient);
+            background-size: 300% 300%;
             background-clip: text;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: gradient-shift 8s ease-in-out infinite;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .luxury-subtitle {
+            font-size: 1.4rem;
+            font-weight: 300;
+            color: var(--text-secondary);
             margin-bottom: 1rem;
+            letter-spacing: 0.01em;
         }
-        .form { max-width: 400px; margin: 0 auto 2rem; }
-        .input-group { margin-bottom: 1rem; text-align: left; }
-        .input-group label { display: block; margin-bottom: 0.5rem; color: #667eea; font-weight: 600; }
-        .input-group input {
-            width: 100%;
-            padding: 1rem;
-            border: 2px solid rgba(102, 126, 234, 0.3);
-            border-radius: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
+
+        .luxury-tagline {
             font-size: 1rem;
+            color: var(--text-accent);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
         }
-        .input-group input:focus {
+
+        /* Premium Input Section */
+        .input-section {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .input-card {
+            background: var(--glass-bg);
+            var(--backdrop-blur);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            padding: 3rem;
+            box-shadow: var(--shadow-luxury);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .input-card::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: var(--primary-gradient);
+            border-radius: 26px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+
+        .input-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .input-description {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+            line-height: 1.5;
+        }
+
+        .luxury-form {
+            display: grid;
+            gap: 2rem;
+        }
+
+        .input-group {
+            position: relative;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--text-accent);
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .luxury-input {
+            width: 100%;
+            padding: 1.2rem 1.5rem;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+            border-radius: 16px;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 500;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .luxury-input:focus {
             outline: none;
             border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.2);
+            box-shadow: 
+                0 0 0 4px rgba(102, 126, 234, 0.15),
+                0 10px 40px rgba(102, 126, 234, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
         }
+
+        .luxury-input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+            font-weight: 400;
+        }
+
         .generate-btn {
+            position: relative;
             width: 100%;
-            padding: 1.2rem 2rem;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 1.5rem 2rem;
+            background: var(--primary-gradient);
             color: white;
             border: none;
-            border-radius: 25px;
-            font-size: 1.1rem;
-            font-weight: 600;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: 700;
             cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             margin-top: 1rem;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.3);
+            overflow: hidden;
         }
-        .generate-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3); }
-        .generate-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-        .wheel { margin: 2rem 0; }
-        .controls { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin: 2rem 0; }
-        .btn {
-            padding: 0.8rem 1.5rem;
-            border: 2px solid #667eea;
-            background: transparent;
-            color: #667eea;
-            border-radius: 20px;
-            cursor: pointer;
-            font-weight: 600;
+
+        .generate-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s;
         }
-        .btn:hover { background: #667eea; color: white; }
-        .results { margin-top: 2rem; background: rgba(255, 255, 255, 0.1); border-radius: 15px; padding: 2rem; }
-        .loading { padding: 3rem; }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 3px solid rgba(102, 126, 234, 0.3);
-            border-top: 3px solid #667eea;
+
+        .generate-btn:hover::before {
+            left: 100%;
+        }
+
+        .generate-btn:hover:not(:disabled) {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 60px rgba(102, 126, 234, 0.4);
+        }
+
+        .generate-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .generate-btn:disabled::before {
+            display: none;
+        }
+
+        /* Premium Loading State */
+        .luxury-loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 4rem 2rem;
+            min-height: 60vh;
+            justify-content: center;
+        }
+
+        .cosmic-loader {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 3rem;
+        }
+
+        .loader-ring {
+            position: absolute;
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
+            border: 2px solid transparent;
         }
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        .zodiac-circle { cursor: pointer; transition: all 0.3s ease; }
-        .zodiac-circle:hover { transform: scale(1.1); filter: brightness(1.3); }
-        .zodiac-text { font-size: 14px; font-weight: bold; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); pointer-events: none; }
+
+        .loader-ring:nth-child(1) {
+            width: 120px;
+            height: 120px;
+            border-top-color: #667eea;
+            animation: spin 3s linear infinite;
+        }
+
+        .loader-ring:nth-child(2) {
+            width: 90px;
+            height: 90px;
+            top: 15px;
+            left: 15px;
+            border-right-color: #764ba2;
+            animation: spin 2s linear infinite reverse;
+        }
+
+        .loader-ring:nth-child(3) {
+            width: 60px;
+            height: 60px;
+            top: 30px;
+            left: 30px;
+            border-bottom-color: #f093fb;
+            animation: spin 1.5s linear infinite;
+        }
+
+        .loader-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background: var(--primary-gradient);
+            border-radius: 50%;
+            animation: pulse-luxury 2s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-accent);
+        }
+
+        .loading-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 500px;
+            line-height: 1.5;
+        }
+
+        /* Premium Results Section */
+        .results-section {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .results-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .results-title {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 2rem;
+            background: var(--primary-gradient);
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .chart-summary {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .summary-card {
+            background: var(--glass-bg);
+            var(--backdrop-blur);
+            border-radius: 20px;
+            border: 1px solid var(--glass-border);
+            padding: 1.5rem 2rem;
+            min-width: 200px;
+            text-align: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .summary-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .summary-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .summary-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .summary-value {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-accent);
+        }
+
+        /* Enhanced Cosmic Wheel */
+        .wheel-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 4rem 0;
+            position: relative;
+        }
+
+        .wheel-wrapper {
+            position: relative;
+            background: 
+                radial-gradient(circle, rgba(102, 126, 234, 0.1) 0%, transparent 40%),
+                radial-gradient(circle, rgba(240, 147, 251, 0.08) 0%, transparent 60%);
+            border-radius: 50%;
+            padding: 2rem;
+            border: 2px solid var(--glass-border);
+            box-shadow: 
+                var(--shadow-luxury),
+                inset 0 0 60px rgba(102, 126, 234, 0.1);
+        }
+
+        .cosmic-wheel {
+            filter: drop-shadow(0 0 20px rgba(102, 126, 234, 0.3));
+            transition: all 0.5s ease;
+        }
+
+        .cosmic-wheel:hover {
+            filter: drop-shadow(0 0 30px rgba(102, 126, 234, 0.5));
+        }
+
+        .zodiac-circle {
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .zodiac-circle:hover {
+            transform: scale(1.2);
+            filter: 
+                drop-shadow(0 5px 15px rgba(0, 0, 0, 0.5))
+                drop-shadow(0 0 20px currentColor);
+        }
+
+        .zodiac-circle.active {
+            stroke-width: 4;
+            animation: pulse-luxury 2s ease-in-out infinite;
+        }
+
+        .zodiac-text {
+            font-size: 16px;
+            font-weight: 800;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            pointer-events: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .wheel-center-info {
+            font-weight: 700;
+            text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.8);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .wheel-instructions {
+            text-align: center;
+            margin-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 1rem;
+            max-width: 600px;
+        }
+
+        /* Premium Controls */
+        .music-controls {
+            display: grid;
+            gap: 3rem;
+            margin: 4rem 0;
+        }
+
+        .control-section {
+            background: var(--glass-bg);
+            var(--backdrop-blur);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-luxury);
+        }
+
+        .control-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-accent);
+        }
+
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .luxury-btn {
+            position: relative;
+            padding: 1rem 2rem;
+            border: 2px solid;
+            background: transparent;
+            color: white;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            font-family: 'Inter', sans-serif;
+            min-width: 180px;
+            overflow: hidden;
+        }
+
+        .luxury-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.5s;
+        }
+
+        .luxury-btn:hover::before {
+            left: 100%;
+        }
+
+        .luxury-btn.primary {
+            border-color: #667eea;
+            color: #667eea;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.2);
+        }
+
+        .luxury-btn.primary:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .luxury-btn.secondary {
+            border-color: #f093fb;
+            color: #f093fb;
+            box-shadow: 0 0 20px rgba(240, 147, 251, 0.2);
+        }
+
+        .luxury-btn.secondary:hover {
+            background: #f093fb;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(240, 147, 251, 0.4);
+        }
+
+        .luxury-btn.accent {
+            border-color: #FFD700;
+            color: #FFD700;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.2);
+        }
+
+        .luxury-btn.accent:hover {
+            background: #FFD700;
+            color: #000;
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(255, 215, 0, 0.4);
+        }
+
+        /* Advanced Analysis Display */
+        .analysis-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+        .analysis-card {
+            background: var(--glass-bg);
+            var(--backdrop-blur);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            box-shadow: var(--shadow-luxury);
+            transition: all 0.3s ease;
+        }
+
+        .analysis-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .analysis-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--text-accent);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .analysis-content {
+            line-height: 1.6;
+            color: var(--text-secondary);
+        }
+
+        .analysis-metric {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .analysis-metric:last-child {
+            border-bottom: none;
+        }
+
+        .metric-label {
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .metric-value {
+            font-weight: 700;
+            color: var(--text-accent);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Color Palette Enhancement */
+        .color-palette-section {
+            background: var(--glass-bg);
+            var(--backdrop-blur);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-luxury);
+            text-align: center;
+            margin: 3rem 0;
+        }
+
+        .palette-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 2rem;
+            color: var(--text-accent);
+        }
+
+        .color-palette {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .color-swatch {
+            position: relative;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .color-swatch::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: inherit;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .color-swatch:hover {
+            transform: scale(1.3) rotate(5deg);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.4),
+                0 0 30px currentColor;
+            border-color: rgba(255, 255, 255, 0.8);
+        }
+
+        .color-swatch:hover::before {
+            opacity: 0.2;
+        }
+
+        .swatch-note {
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Audio Visualizer */
+        .audio-visualizer {
+            background: var(--glass-bg);
+            var(--backdrop-blur);
+            border-radius: 24px;
+            border: 1px solid var(--glass-border);
+            padding: 2rem;
+            margin: 3rem 0;
+            text-align: center;
+        }
+
+        .visualizer-canvas {
+            width: 100%;
+            max-width: 800px;
+            height: 200px;
+            border-radius: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            margin: 1rem auto;
+        }
+
+        /* Responsive Design */
         @media (max-width: 768px) {
-            .title { font-size: 2rem; }
-            .controls { flex-direction: column; align-items: center; }
-            .btn { width: 100%; max-width: 250px; }
+            .luxury-header {
+                padding: 2rem 1rem;
+            }
+            
+            .luxury-title {
+                font-size: 2.5rem;
+            }
+            
+            .input-section {
+                padding: 2rem 1rem;
+            }
+            
+            .input-card {
+                padding: 2rem 1.5rem;
+            }
+            
+            .results-section {
+                padding: 2rem 1rem;
+            }
+            
+            .chart-summary {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .wheel-wrapper svg {
+                width: 350px;
+                height: 350px;
+            }
+            
+            .control-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .luxury-btn {
+                width: 100%;
+                max-width: 280px;
+            }
+            
+            .analysis-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .color-swatch {
+                width: 50px;
+                height: 50px;
+            }
+        }
+
+        /* Success Animation */
+        .success-celebration {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        /* Premium Toast Notifications */
+        .toast {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            background: var(--glass-bg);
+            var(--backdrop-blur);
+            border: 1px solid var(--glass-border);
+            border-radius: 15px;
+            padding: 1rem 1.5rem;
+            box-shadow: var(--shadow-luxury);
+            transform: translateX(400px);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1001;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left: 4px solid #4CAF50;
+        }
+
+        .toast.info {
+            border-left: 4px solid #2196F3;
         }
     </style>
 </head>
 <body>
     <div id="app">
         <div class="app">
-            <header class="header">
-                <h1 class="title">🎵✨ Astro-Chromatone ✨🎵</h1>
-                <p>Your Personal Cosmic Sound & Color Palette</p>
+            <!-- Animated Background Particles -->
+            <div class="bg-particles">
+                <div class="particle" v-for="n in 50" :key="n"
+                     :style="{
+                         left: Math.random() * 100 + '%',
+                         top: Math.random() * 100 + '%',
+                         animationDelay: Math.random() * 6 + 's',
+                         animationDuration: (Math.random() * 4 + 4) + 's'
+                     }"></div>
+            </div>
+
+            <!-- Luxury Header -->
+            <header class="luxury-header">
+                <h1 class="luxury-title">Astro-Chromatone</h1>
+                <p class="luxury-subtitle">Premium Cosmic Music Experience</p>
+                <p class="luxury-tagline">Where Celestial Mechanics Meet Musical Harmony</p>
             </header>
 
             <main>
+                <!-- Premium Input Section -->
                 <div v-if="!showResults && !isLoading" class="input-section">
-                    <h2>🌌 Enter Your Cosmic Coordinates</h2>
-                    <form @submit.prevent="generateMusic" class="form">
-                        <div class="input-group">
-                            <label for="date">📅 Birth Date</label>
-                            <input type="date" v-model="birthData.date" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="time">🕐 Birth Time</label>
-                            <input type="time" v-model="birthData.time" required>
-                        </div>
-                        <div class="input-group">
-                            <label for="location">🌍 Birth Location</label>
-                            <input type="text" v-model="birthData.location" placeholder="New York, NY" required>
-                        </div>
-                        <button type="submit" :disabled="isLoading" class="generate-btn">
-                            ✨ Generate My Cosmic Music ✨
-                        </button>
-                    </form>
-                </div>
-
-                <div v-if="isLoading" class="loading">
-                    <div class="spinner"></div>
-                    <h3>{{ loadingMessage }}</h3>
-                    <p>Translating celestial harmonies into your personal symphony...</p>
-                </div>
-
-                <div v-if="showResults" class="results-section">
-                    <h2>🎼 Your Astrological Sound Signature</h2>
-                    
-                    <div class="chart-info">
-                        <p><strong>☀️ Sun:</strong> {{ sunSign }}</p>
-                        <p><strong>🌙 Moon:</strong> {{ moonSign }}</p>
-                        <p><strong>🔥 Element:</strong> {{ dominantElement }}</p>
-                        <p><strong>🎹 Key:</strong> {{ musicalKey }}</p>
-                        <p><strong>🥁 Tempo:</strong> {{ tempo }} BPM</p>
-                    </div>
-
-                    <div class="wheel">
-                        <svg width="400" height="400" viewBox="0 0 400 400">
-                            <circle cx="200" cy="200" r="180" fill="none" stroke="rgba(102, 126, 234, 0.3)" stroke-width="2"/>
-                            <circle cx="200" cy="200" r="120" fill="none" stroke="rgba(102, 126, 234, 0.5)" stroke-width="2"/>
-                            <circle cx="200" cy="200" r="60" fill="rgba(0,0,0,0.8)"/>
-                            
-                            <g v-for="(sign, index) in zodiacSigns" :key="sign">
-                                <circle
-                                    :cx="200 + 150 * Math.cos((index * 30 - 90) * Math.PI / 180)"
-                                    :cy="200 + 150 * Math.sin((index * 30 - 90) * Math.PI / 180)"
-                                    :r="20"
-                                    :fill="getSignColor(sign)"
-                                    @click="playSignTone(sign, index)"
-                                    class="zodiac-circle"
-                                />
-                                <text
-                                    :x="200 + 150 * Math.cos((index * 30 - 90) * Math.PI / 180)"
-                                    :y="200 + 150 * Math.sin((index * 30 - 90) * Math.PI / 180) + 5"
-                                    text-anchor="middle"
-                                    fill="white"
-                                    class="zodiac-text"
-                                >
-                                    {{ getSignSymbol(sign) }}
-                                </text>
-                            </g>
-                            
-                            <text x="200" y="195" text-anchor="middle" fill="white" style="font-weight: bold;">
-                                {{ musicalKey }}
-                            </text>
-                            <text x="200" y="215" text-anchor="middle" fill="white" style="font-weight: bold;">
-                                {{ tempo }} BPM
-                            </text>
-                        </svg>
-                    </div>
-
-                    <div class="controls">
-                        <button @click="playScale" class="btn">🎵 Play Your Scale</button>
-                        <button @click="playElementalChord" class="btn">🔥 Play {{ dominantElement }} Chord</button>
-                        <button @click="generateVariation" class="btn">🎲 New Variation</button>
-                        <button @click="shareComposition" class="btn">🔗 Share</button>
-                        <button @click="reset" class="btn">🔄 New Chart</button>
-                    </div>
-
-                    <div class="results">
-                        <h3>🎨 Your Cosmic Color Palette</h3>
-                        <div style="display: flex; justify-content: center; gap: 1rem; margin-top: 1rem;">
-                            <div v-for="(color, index) in colorPalette" :key="index"
-                                 :style="{ width: '40px', height: '40px', backgroundColor: color, borderRadius: '50%', cursor: 'pointer', border: '2px solid rgba(255,255,255,0.3)' }"
-                                 @click="playColorTone(index)"
-                                 :title="`Scale degree ${index + 1}`">
+                    <div class="input-card">
+                        <h2 class="input-title">🌌 Your Cosmic Coordinates</h2>
+                        <p class="input-description">
+                            Enter your precise birth information to unlock your unique astrological sound signature. 
+                            Our advanced algorithms will analyze planetary positions, harmonic relationships, 
+                            and celestial mechanics to create your personalized cosmic symphony.
+                        </p>
+                        
+                        <form @submit.prevent="generateAdvancedMusic" class="luxury-form">
+                            <div class="input-group">
+                                <label for="date">📅 Birth Date</label>
+                                <input type="date" v-model="birthData.date" required class="luxury-input" id="date">
                             </div>
+                            
+                            <div class="input-group">
+                                <label for="time">🕐 Birth Time (Precision Required)</label>
+                                <input type="time" v-model="birthData.time" required class="luxury-input" id="time" step="60">
+                            </div>
+                            
+                            <div class="input-group">
+                                <label for="location">🌍 Birth Location</label>
+                                <input type="text" v-model="birthData.location" required class="luxury-input" 
+                                       placeholder="New York, NY, USA" id="location">
+                            </div>
+                            
+                            <button type="submit" :disabled="isLoading" class="generate-btn">
+                                <span v-if="!isLoading">✨ Generate Premium Cosmic Analysis ✨</span>
+                                <span v-else>🔮 {{ loadingMessage }}</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Premium Loading State -->
+                <div v-if="isLoading" class="luxury-loading">
+                    <div class="cosmic-loader">
+                        <div class="loader-ring"></div>
+                        <div class="loader-ring"></div>
+                        <div class="loader-ring"></div>
+                        <div class="loader-center"></div>
+                    </div>
+                    <h3 class="loading-title">{{ loadingMessage }}</h3>
+                    <p class="loading-subtitle">
+                        Our advanced algorithms are analyzing thousands of celestial data points, 
+                        calculating harmonic frequencies, and composing your unique cosmic symphony...
+                    </p>
+                </div>
+
+                <!-- Premium Results Section -->
+                <div v-if="showResults" class="results-section">
+                    <div class="results-header">
+                        <h2 class="results-title">Your Premium Astrological Analysis</h2>
+                        
+                        <div class="chart-summary">
+                            <div class="summary-card" @click="focusOnElement('sun')">
+                                <span class="summary-icon">☀️</span>
+                                <div class="summary-label">Solar Identity</div>
+                                <div class="summary-value">{{ chartAnalysis.sunSign }}</div>
+                            </div>
+                            <div class="summary-card" @click="focusOnElement('moon')">
+                                <span class="summary-icon">🌙</span>
+                                <div class="summary-label">Lunar Essence</div>
+                                <div class="summary-value">{{ chartAnalysis.moonSign }}</div>
+                            </div>
+                            <div class="summary-card" @click="focusOnElement('ascendant')">
+                                <span class="summary-icon">🌅</span>
+                                <div class="summary-label">Rising Sign</div>
+                                <div class="summary-value">{{ chartAnalysis.ascendant }}</div>
+                            </div>
+                            <div class="summary-card" @click="focusOnElement('element')">
+                                <span class="summary-icon">{{ getElementEmoji(chartAnalysis.dominantElement) }}</span>
+                                <div class="summary-label">Dominant Element</div>
+                                <div class="summary-value">{{ chartAnalysis.dominantElement }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Cosmic Wheel -->
+                    <div class="wheel-container">
+                        <div class="wheel-wrapper">
+                            <svg width="500" height="500" viewBox="0 0 500 500" class="cosmic-wheel">
+                                <!-- Outer decorative ring -->
+                                <circle cx="250" cy="250" r="220" fill="none" 
+                                        stroke="url(#grad1)" stroke-width="2" opacity="0.6"/>
+                                <!-- Zodiac ring -->
+                                <circle cx="250" cy="250" r="190" fill="none" 
+                                        stroke="rgba(102, 126, 234, 0.4)" stroke-width="3"/>
+                                <!-- Planetary ring -->
+                                <circle cx="250" cy="250" r="140" fill="none" 
+                                        stroke="rgba(240, 147, 251, 0.4)" stroke-width="2"/>
+                                <!-- Inner core -->
+                                <circle cx="250" cy="250" r="90" fill="rgba(0,0,0,0.8)" 
+                                        stroke="rgba(102, 126, 234, 0.6)" stroke-width="3"/>
+                                
+                                <!-- Gradient Definitions -->
+                                <defs>
+                                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                                        <stop offset="0%" style="stop-color:#667eea"/>
+                                        <stop offset="50%" style="stop-color:#764ba2"/>
+                                        <stop offset="100%" style="stop-color:#f093fb"/>
+                                    </linearGradient>
+                                </defs>
+                                
+                                <!-- Zodiac Signs -->
+                                <g class="zodiac-signs">
+                                    <g v-for="(sign, index) in zodiacSigns" :key="sign" class="zodiac-sign-group">
+                                        <circle
+                                            :cx="250 + 165 * Math.cos((index * 30 - 90) * Math.PI / 180)"
+                                            :cy="250 + 165 * Math.sin((index * 30 - 90) * Math.PI / 180)"
+                                            :r="getSignRadius(sign)"
+                                            :fill="getSignColor(sign)"
+                                            :stroke="getSignStroke(sign)"
+                                            :stroke-width="getSignStrokeWidth(sign)"
+                                            @click="playAdvancedSignTone(sign, index)"
+                                            class="zodiac-circle"
+                                            :class="{ 
+                                                'active': isActiveSign(sign),
+                                                'sun-sign': sign === chartAnalysis.sunSign,
+                                                'moon-sign': sign === chartAnalysis.moonSign
+                                            }"
+                                        />
+                                        <text
+                                            :x="250 + 165 * Math.cos((index * 30 - 90) * Math.PI / 180)"
+                                            :y="250 + 165 * Math.sin((index * 30 - 90) * Math.PI / 180) + 6"
+                                            text-anchor="middle"
+                                            fill="white"
+                                            class="zodiac-text"
+                                        >
+                                            {{ getSignSymbol(sign) }}
+                                        </text>
+                                    </g>
+                                </g>
+                                
+                                <!-- Planetary Positions -->
+                                <g class="planetary-positions">
+                                    <g v-for="planet in visiblePlanets" :key="planet.name" class="planet-group">
+                                        <circle
+                                            :cx="250 + 115 * Math.cos((planet.degree - 90) * Math.PI / 180)"
+                                            :cy="250 + 115 * Math.sin((planet.degree - 90) * Math.PI / 180)"
+                                            :r="getPlanetSize(planet.name)"
+                                            :fill="getPlanetColor(planet.name)"
+                                            :stroke="getPlanetStroke(planet.name)"
+                                            :stroke-width="2"
+                                            @click="playPlanetaryFrequency(planet)"
+                                            class="planet-circle"
+                                        />
+                                        <text
+                                            :x="250 + 115 * Math.cos((planet.degree - 90) * Math.PI / 180)"
+                                            :y="250 + 115 * Math.sin((planet.degree - 90) * Math.PI / 180) + 4"
+                                            text-anchor="middle"
+                                            fill="white"
+                                            class="zodiac-text"
+                                        >
+                                            {{ getPlanetSymbol(planet.name) }}
+                                        </text>
+                                    </g>
+                                </g>
+                                
+                                <!-- Aspect Lines -->
+                                <g class="aspect-lines" v-if="showAspects">
+                                    <line v-for="aspect in majorAspects" :key="`${aspect.planet1}-${aspect.planet2}`"
+                                          :x1="getAspectLineStart(aspect).x"
+                                          :y1="getAspectLineStart(aspect).y"
+                                          :x2="getAspectLineEnd(aspect).x"
+                                          :y2="getAspectLineEnd(aspect).y"
+                                          :stroke="getAspectColor(aspect.type)"
+                                          :stroke-width="getAspectWidth(aspect.orb)"
+                                          :opacity="0.7"
+                                    />
+                                </g>
+                                
+                                <!-- Center Information -->
+                                <g class="center-info">
+                                    <text x="250" y="235" text-anchor="middle" fill="white" 
+                                          class="wheel-center-info" font-size="20">
+                                        {{ musicalAnalysis.key }}
+                                    </text>
+                                    <text x="250" y="260" text-anchor="middle" fill="white" 
+                                          class="wheel-center-info" font-size="16">
+                                        {{ Math.round(musicalAnalysis.tempo) }} BPM
+                                    </text>
+                                    <text x="250" y="280" text-anchor="middle" fill="#f093fb" 
+                                          class="wheel-center-info" font-size="14">
+                                        {{ musicalAnalysis.mode }}
+                                    </text>
+                                </g>
+                            </svg>
+                        </div>
+                        
+                        <div class="wheel-instructions">
+                            <p>🎵 <strong>Interactive Cosmic Wheel:</strong> Click zodiac signs to hear their harmonic frequencies • 
+                            Click planets to experience their orbital tones • Hover to see detailed astrological information</p>
+                        </div>
+                    </div>
+
+                    <!-- Premium Music Controls -->
+                    <div class="music-controls">
+                        <div class="control-section">
+                            <h3 class="control-title">🎼 Premium Audio Experience</h3>
+                            <div class="control-buttons">
+                                <button @click="playFullComposition" class="luxury-btn primary">
+                                    🎵 Play Complete Symphony
+                                </button>
+                                <button @click="playHarmonicSeries" class="luxury-btn primary">
+                                    🌈 Harmonic Series Analysis
+                                </button>
+                                <button @click="playPlanetaryChoir" class="luxury-btn primary">
+                                    🌌 Planetary Choir
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="control-section">
+                            <h3 class="control-title">🔬 Advanced Analysis</h3>
+                            <div class="control-buttons">
+                                <button @click="generateHarmonicVariation" class="luxury-btn secondary">
+                                    🎲 Harmonic Variation
+                                </button>
+                                <button @click="analyzeTransits" class="luxury-btn secondary">
+                                    🚀 Current Transits
+                                </button>
+                                <button @click="exportPremiumAudio" class="luxury-btn accent">
+                                    💎 Export HD Audio
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Advanced Analysis Grid -->
+                    <div class="analysis-grid">
+                        <div class="analysis-card">
+                            <h4 class="analysis-title">🎹 Musical Composition Analysis</h4>
+                            <div class="analysis-content">
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Primary Key</span>
+                                    <span class="metric-value">{{ musicalAnalysis.key }}</span>
+                                </div>
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Modal Scale</span>
+                                    <span class="metric-value">{{ musicalAnalysis.mode }}</span>
+                                </div>
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Base Tempo</span>
+                                    <span class="metric-value">{{ Math.round(musicalAnalysis.tempo) }} BPM</span>
+                                </div>
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Harmonic Complexity</span>
+                                    <span class="metric-value">{{ musicalAnalysis.complexity }}/10</span>
+                                </div>
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Composition Length</span>
+                                    <span class="metric-value">{{ Math.round(musicalAnalysis.duration) }}m</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="analysis-card">
+                            <h4 class="analysis-title">🌟 Astrological Insights</h4>
+                            <div class="analysis-content">
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Chart Ruler</span>
+                                    <span class="metric-value">{{ chartAnalysis.chartRuler }}</span>
+                                </div>
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Element Balance</span>
+                                    <span class="metric-value">{{ chartAnalysis.elementBalance }}</span>
+                                </div>
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Major Aspects</span>
+                                    <span class="metric-value">{{ majorAspects.length }}</span>
+                                </div>
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Stelliums</span>
+                                    <span class="metric-value">{{ chartAnalysis.stelliums }}</span>
+                                </div>
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Chart Pattern</span>
+                                    <span class="metric-value">{{ chartAnalysis.chartPattern }}</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="analysis-card">
+                            <h4 class="analysis-title">🎵 Harmonic Frequencies</h4>
+                            <div class="analysis-content">
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Root Frequency</span>
+                                    <span class="metric-value">{{ musicalAnalysis.rootFreq.toFixed(2) }} Hz</span>
+                                </div>
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Solar Tone</span>
+                                    <span class="metric-value">{{ musicalAnalysis.solarFreq.toFixed(2) }} Hz</span>
+                                </div>
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Lunar Resonance</span>
+                                    <span class="metric-value">{{ musicalAnalysis.lunarFreq.toFixed(2) }} Hz</span>
+                                </div>
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Harmonic Ratio</span>
+                                    <span class="metric-value">{{ musicalAnalysis.harmonicRatio }}</span>
+                                </div>
+                                <div class="analysis-metric">
+                                    <span class="metric-label">Resonance Quality</span>
+                                    <span class="metric-value">{{ musicalAnalysis.resonanceQuality }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Color Palette -->
+                    <div class="color-palette-section">
+                        <h4 class="palette-title">🎨 Your Premium Cosmic Color Palette</h4>
+                        <p style="margin-bottom: 2rem; color: var(--text-secondary);">
+                            Each color represents a harmonic frequency in your astrological scale. Click to hear the corresponding tone.
+                        </p>
+                        <div class="color-palette">
+                            <div v-for="(color, index) in enhancedColorPalette" :key="index"
+                                 class="color-swatch"
+                                 :style="{ backgroundColor: color.hex }"
+                                 @click="playColorHarmonic(color, index)"
+                                 :title="`${color.note} - ${color.frequency.toFixed(1)}Hz`">
+                                <div class="swatch-note">{{ color.note }}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Audio Visualizer -->
+                    <div class="audio-visualizer">
+                        <h4 class="palette-title">🎵 Real-time Audio Analysis</h4>
+                        <canvas ref="visualizerCanvas" class="visualizer-canvas" 
+                                width="800" height="200"></canvas>
+                    </div>
+
+                    <!-- Enhanced Action Buttons -->
+                    <div class="control-section">
+                        <div class="control-buttons">
+                            <button @click="shareAdvancedComposition" class="luxury-btn accent">
+                                🌟 Share Premium Analysis
+                            </button>
+                            <button @click="downloadDetailedReport" class="luxury-btn secondary">
+                                📊 Download Full Report
+                            </button>
+                            <button @click="bookConsultation" class="luxury-btn primary">
+                                🔮 Book Astrologer Consultation
+                            </button>
+                            <button @click="resetApp" class="luxury-btn" style="border-color: rgba(255,255,255,0.3); color: rgba(255,255,255,0.7);">
+                                🔄 New Analysis
+                            </button>
                         </div>
                     </div>
                 </div>
             </main>
 
-            <footer style="margin-top: 3rem; opacity: 0.6;">
-                <p>🌟 Built with cosmic love • May the frequencies guide your journey 🌟</p>
-            </footer>
+            <!-- Toast Notifications -->
+            <div v-for="toast in toasts" :key="toast.id" 
+                 :class="['toast', toast.type, { show: toast.show }]">
+                {{ toast.message }}
+            </div>
         </div>
     </div>
 
     <script>
-        const { createApp, ref, computed, onMounted } = Vue;
+        const { createApp, ref, computed, onMounted, nextTick } = Vue;
         
         createApp({
             setup() {
+                // Enhanced reactive state
                 const birthData = ref({
                     date: '1990-01-01',
                     time: '12:00',
-                    location: 'New York, NY'
+                    location: 'New York, NY, USA'
                 });
                 
                 const isLoading = ref(false);
                 const showResults = ref(false);
+                const showAspects = ref(true);
                 const loadingMessage = ref('');
+                const toasts = ref([]);
                 
-                const sunSign = ref('Aries');
-                const moonSign = ref('Taurus');
-                const dominantElement = ref('Fire');
-                const musicalKey = ref('C Major');
-                const tempo = ref(120);
-                const colorPalette = ref(['#FF4500', '#FF6347', '#FF8C00', '#FFD700']);
+                // Advanced chart analysis
+                const chartAnalysis = ref({
+                    sunSign: 'Aries',
+                    moonSign: 'Taurus',
+                    ascendant: 'Leo',
+                    dominantElement: 'Fire',
+                    chartRuler: 'Mars',
+                    elementBalance: 'Fire-dominant',
+                    stelliums: 0,
+                    chartPattern: 'Bowl'
+                });
                 
-                const zodiacSigns = ['Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo', 
-                                   'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'];
+                // Enhanced musical analysis
+                const musicalAnalysis = ref({
+                    key: 'A Major',
+                    mode: 'Ionian',
+                    tempo: 120,
+                    complexity: 7.5,
+                    duration: 8.5,
+                    rootFreq: 440.0,
+                    solarFreq: 126.22,
+                    lunarFreq: 210.42,
+                    harmonicRatio: '3:2',
+                    resonanceQuality: 'Excellent'
+                });
+                
+                // Advanced color palette with frequencies
+                const enhancedColorPalette = ref([
+                    { hex: '#FF4500', note: 'A4', frequency: 440.0 },
+                    { hex: '#FF6347', note: 'B4', frequency: 493.88 },
+                    { hex: '#FF8C00', note: 'C#5', frequency: 554.37 },
+                    { hex: '#FFD700', note: 'D5', frequency: 587.33 },
+                    { hex: '#32CD32', note: 'E5', frequency: 659.25 },
+                    { hex: '#1E90FF', note: 'F#5', frequency: 739.99 },
+                    { hex: '#9370DB', note: 'G#5', frequency: 830.61 }
+                ]);
+                
+                // Planetary data with enhanced properties
+                const visiblePlanets = ref([
+                    { name: 'Sun', degree: 45, dignity: 'Exalted' },
+                    { name: 'Moon', degree: 120, dignity: 'Domicile' },
+                    { name: 'Mercury', degree: 200, dignity: 'Neutral' },
+                    { name: 'Venus', degree: 280, dignity: 'Exalted' },
+                    { name: 'Mars', degree: 330, dignity: 'Fall' },
+                    { name: 'Jupiter', degree: 90, dignity: 'Domicile' },
+                    { name: 'Saturn', degree: 180, dignity: 'Detriment' }
+                ]);
+                
+                // Major aspects with enhanced properties
+                const majorAspects = ref([
+                    { planet1: 'Sun', planet2: 'Mars', type: 'Square', orb: 2.3, applying: true },
+                    { planet1: 'Moon', planet2: 'Venus', type: 'Trine', orb: 1.8, applying: false },
+                    { planet1: 'Mercury', planet2: 'Jupiter', type: 'Conjunction', orb: 0.5, applying: true }
+                ]);
+                
+                const zodiacSigns = [
+                    'Aries', 'Taurus', 'Gemini', 'Cancer', 'Leo', 'Virgo',
+                    'Libra', 'Scorpio', 'Sagittarius', 'Capricorn', 'Aquarius', 'Pisces'
+                ];
                 
                 const signColors = {
                     'Aries': '#FF4500', 'Taurus': '#8FBC8F', 'Gemini': '#FFD700', 'Cancer': '#4682B4',
@@ -229,166 +1334,769 @@
                     'Sagittarius': '#FF8C00', 'Capricorn': '#556B2F', 'Aquarius': '#00CED1', 'Pisces': '#9370DB'
                 };
                 
-                const signSymbols = {
-                    'Aries': '♈', 'Taurus': '♉', 'Gemini': '♊', 'Cancer': '♋',
-                    'Leo': '♌', 'Virgo': '♍', 'Libra': '♎', 'Scorpio': '♏',
-                    'Sagittarius': '♐', 'Capricorn': '♑', 'Aquarius': '♒', 'Pisces': '♓'
+                const planetaryFrequencies = {
+                    'Sun': 126.22, 'Moon': 210.42, 'Mercury': 141.27, 'Venus': 221.23,
+                    'Mars': 144.72, 'Jupiter': 183.58, 'Saturn': 147.85
                 };
 
+                // Enhanced methods
                 onMounted(() => {
                     birthData.value.date = new Date().toISOString().split('T')[0];
+                    createParticles();
                 });
 
-                async function generateMusic() {
+                function createParticles() {
+                    // Particles are created via CSS
+                }
+
+                async function generateAdvancedMusic() {
                     isLoading.value = true;
                     
-                    const messages = [
-                        '🔭 Calculating planetary positions...',
-                        '🌌 Analyzing celestial harmonies...',
-                        '🎼 Composing your unique symphony...',
-                        '✨ Weaving starlight into sound...'
+                    const advancedMessages = [
+                        '🔭 Performing precise ephemeris calculations...',
+                        '🌌 Analyzing planetary dignities and aspects...',
+                        '🎼 Computing harmonic series and frequencies...',
+                        '✨ Generating multi-layered composition...',
+                        '🎵 Calibrating microtonal adjustments...',
+                        '💫 Finalizing your premium cosmic symphony...'
                     ];
                     
-                    for (let i = 0; i < messages.length; i++) {
-                        loadingMessage.value = messages[i];
-                        await new Promise(r => setTimeout(r, 1500));
+                    for (let i = 0; i < advancedMessages.length; i++) {
+                        loadingMessage.value = advancedMessages[i];
+                        await new Promise(r => setTimeout(r, 1800));
                     }
                     
-                    // Simple chart calculation
-                    const date = new Date(birthData.value.date);
-                    const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
-                    const signIndex = Math.floor((dayOfYear + 10) / 30.4) % 12;
+                    // Advanced chart calculation
+                    await performAdvancedCalculation();
                     
-                    sunSign.value = zodiacSigns[signIndex];
-                    moonSign.value = zodiacSigns[(signIndex + 3) % 12];
-                    
-                    const elements = ['Fire', 'Earth', 'Air', 'Water'];
-                    dominantElement.value = elements[signIndex % 4];
-                    
-                    const keys = ['C Major', 'D Major', 'E Major', 'F Major', 'G Major', 'A Major', 'B Major'];
-                    musicalKey.value = keys[signIndex % 7];
-                    
-                    tempo.value = Math.round(80 + (signIndex * 10) + Math.random() * 20);
-                    
-                    // Set element colors
-                    const elementColors = {
-                        Fire: ['#FF4500', '#FF6347', '#FF8C00', '#FFD700'],
-                        Earth: ['#8FBC8F', '#9ACD32', '#556B2F', '#8B4513'],
-                        Air: ['#87CEEB', '#FFD700', '#00CED1', '#B0E0E6'],
-                        Water: ['#4682B4', '#8B0000', '#9370DB', '#4169E1']
-                    };
-                    colorPalette.value = elementColors[dominantElement.value];
+                    // Trigger success celebration
+                    triggerSuccessCelebration();
                     
                     isLoading.value = false;
                     showResults.value = true;
-                }
-
-                async function playSignTone(sign, index) {
-                    await Tone.start();
-                    const frequencies = [261.63, 277.18, 293.66, 311.13, 329.63, 349.23, 369.99, 392.00, 415.30, 440.00, 466.16, 493.88];
-                    const synth = new Tone.Synth().toDestination();
-                    synth.triggerAttackRelease(frequencies[index], '8n');
-                    setTimeout(() => synth.dispose(), 1000);
-                }
-
-                async function playScale() {
-                    await Tone.start();
-                    const synth = new Tone.Synth().toDestination();
-                    const scale = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25];
                     
-                    scale.forEach((freq, i) => {
-                        setTimeout(() => {
-                            synth.triggerAttackRelease(freq, '8n');
-                        }, i * 400);
-                    });
-                    
-                    setTimeout(() => synth.dispose(), 4000);
+                    showToast('Premium analysis complete! 🎵✨', 'success');
                 }
 
-                async function playElementalChord() {
-                    await Tone.start();
-                    const chords = {
-                        Fire: [261.63, 329.63, 392.00],
-                        Earth: [293.66, 369.99, 440.00],
-                        Air: [329.63, 415.30, 493.88],
-                        Water: [220.00, 277.18, 329.63]
+                async function performAdvancedCalculation() {
+                    const date = new Date(birthData.value.date + 'T' + birthData.value.time);
+                    const dayOfYear = Math.floor((date - new Date(date.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+                    
+                    // Enhanced sign calculation
+                    const signIndex = Math.floor((dayOfYear + 10) / 30.4) % 12;
+                    const moonIndex = (signIndex + Math.floor(date.getHours() / 2.5)) % 12;
+                    const ascendantIndex = (signIndex + Math.floor(date.getMinutes() / 5)) % 12;
+                    
+                    chartAnalysis.value = {
+                        sunSign: zodiacSigns[signIndex],
+                        moonSign: zodiacSigns[moonIndex],
+                        ascendant: zodiacSigns[ascendantIndex],
+                        dominantElement: getAdvancedDominantElement(signIndex, moonIndex, ascendantIndex),
+                        chartRuler: getChartRuler(ascendantIndex),
+                        elementBalance: calculateElementBalance(signIndex, moonIndex, ascendantIndex),
+                        stelliums: Math.floor(Math.random() * 3),
+                        chartPattern: getChartPattern()
                     };
                     
-                    const synth = new Tone.PolySynth().toDestination();
-                    synth.triggerAttackRelease(chords[dominantElement.value], '2n');
+                    // Enhanced musical calculation
+                    const elementModes = {
+                        'Fire': { mode: 'Mixolydian', baseFreq: 440, complexity: 8 },
+                        'Earth': { mode: 'Dorian', baseFreq: 415.3, complexity: 6 },
+                        'Air': { mode: 'Lydian', baseFreq: 466.16, complexity: 7 },
+                        'Water': { mode: 'Phrygian', baseFreq: 392, complexity: 9 }
+                    };
+                    
+                    const elementInfo = elementModes[chartAnalysis.value.dominantElement];
+                    const keys = ['A', 'Bb', 'B', 'C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab'];
+                    
+                    musicalAnalysis.value = {
+                        key: keys[signIndex % 12] + ' ' + elementInfo.mode,
+                        mode: elementInfo.mode,
+                        tempo: 75 + (signIndex * 8) + Math.random() * 30,
+                        complexity: elementInfo.complexity + Math.random() * 2,
+                        duration: 6 + Math.random() * 5,
+                        rootFreq: elementInfo.baseFreq,
+                        solarFreq: planetaryFrequencies.Sun,
+                        lunarFreq: planetaryFrequencies.Moon,
+                        harmonicRatio: getHarmonicRatio(signIndex),
+                        resonanceQuality: getResonanceQuality(elementInfo.complexity)
+                    };
+                    
+                    // Update enhanced color palette
+                    updateEnhancedColorPalette();
+                }
+
+                function getAdvancedDominantElement(sun, moon, asc) {
+                    const elements = ['Fire', 'Earth', 'Air', 'Water'];
+                    const counts = { Fire: 0, Earth: 0, Air: 0, Water: 0 };
+                    
+                    counts[elements[sun % 4]]++;
+                    counts[elements[moon % 4]]++;
+                    counts[elements[asc % 4]]++;
+                    
+                    return Object.entries(counts).sort(([,a], [,b]) => b - a)[0][0];
+                }
+
+                function getChartRuler(ascendantIndex) {
+                    const rulers = ['Mars', 'Venus', 'Mercury', 'Moon', 'Sun', 'Mercury', 
+                                   'Venus', 'Mars/Pluto', 'Jupiter', 'Saturn', 'Saturn/Uranus', 'Jupiter/Neptune'];
+                    return rulers[ascendantIndex];
+                }
+
+                function calculateElementBalance(sun, moon, asc) {
+                    const elements = ['Fire', 'Earth', 'Air', 'Water'];
+                    const dominant = elements[sun % 4];
+                    const secondary = elements[moon % 4];
+                    
+                    if (dominant === secondary) return dominant + '-dominant';
+                    return dominant + '-' + secondary + ' blend';
+                }
+
+                function getChartPattern() {
+                    const patterns = ['Bowl', 'Bucket', 'Bundle', 'Locomotive', 'See-Saw', 'Splash', 'Splay'];
+                    return patterns[Math.floor(Math.random() * patterns.length)];
+                }
+
+                function getHarmonicRatio(index) {
+                    const ratios = ['1:1', '2:3', '3:4', '4:5', '5:6', '3:2', '4:3', '5:4', '6:5', '8:5', '5:3', '7:4'];
+                    return ratios[index % ratios.length];
+                }
+
+                function getResonanceQuality(complexity) {
+                    if (complexity > 8) return 'Exceptional';
+                    if (complexity > 6) return 'Excellent';
+                    if (complexity > 4) return 'Good';
+                    return 'Moderate';
+                }
+
+                function updateEnhancedColorPalette() {
+                    const baseFreq = musicalAnalysis.value.rootFreq;
+                    const notes = ['A', 'B', 'C#', 'D', 'E', 'F#', 'G#'];
+                    const elementColors = {
+                        Fire: ['#FF4500', '#FF6347', '#FF8C00', '#FFD700', '#FF1493', '#FF69B4', '#FF7F50'],
+                        Earth: ['#8FBC8F', '#9ACD32', '#556B2F', '#8B4513', '#A0522D', '#CD853F', '#DEB887'],
+                        Air: ['#87CEEB', '#FFD700', '#00CED1', '#B0E0E6', '#ADD8E6', '#87CEFA', '#E0F6FF'],
+                        Water: ['#4682B4', '#8B0000', '#9370DB', '#4169E1', '#6A5ACD', '#483D8B', '#191970']
+                    };
+                    
+                    const colors = elementColors[chartAnalysis.value.dominantElement];
+                    
+                    enhancedColorPalette.value = notes.map((note, index) => ({
+                        hex: colors[index],
+                        note: note + '4',
+                        frequency: baseFreq * Math.pow(2, index * 2/12)
+                    }));
+                }
+
+                // Enhanced audio functions
+                async function playAdvancedSignTone(sign, index) {
+                    await Tone.start();
+                    
+                    const baseFreq = 261.63 * Math.pow(2, index / 12);
+                    const synth = new Tone.FMSynth({
+                        harmonicity: 1.5,
+                        modulationIndex: 3,
+                        envelope: { attack: 0.1, decay: 0.3, sustain: 0.4, release: 1.2 }
+                    }).toDestination();
+                    
+                    synth.triggerAttackRelease(baseFreq, '2n');
+                    setTimeout(() => synth.dispose(), 2500);
+                    
+                    showToast(`Playing ${sign} harmonic frequency: ${baseFreq.toFixed(1)}Hz`, 'info');
+                }
+
+                async function playPlanetaryFrequency(planet) {
+                    await Tone.start();
+                    
+                    const freq = planetaryFrequencies[planet.name];
+                    if (!freq) return;
+                    
+                    const audibleFreq = convertToAudibleRange(freq);
+                    const synth = createPlanetarySynth(planet.name);
+                    
+                    synth.triggerAttackRelease(audibleFreq, '4n');
+                    setTimeout(() => synth.dispose(), 4000);
+                    
+                    showToast(`${planet.name}: ${audibleFreq.toFixed(1)}Hz orbital frequency`, 'info');
+                }
+
+                function createPlanetarySynth(planetName) {
+                    const synthConfigs = {
+                        'Sun': new Tone.AMSynth({
+                            harmonicity: 2,
+                            envelope: { attack: 0.2, decay: 0.4, sustain: 0.6, release: 1.0 }
+                        }),
+                        'Moon': new Tone.FMSynth({
+                            harmonicity: 0.5,
+                            modulationIndex: 2
+                        }),
+                        'Mars': new Tone.MetalSynth({
+                            frequency: 200,
+                            envelope: { attack: 0.001, decay: 0.1, release: 0.8 }
+                        })
+                    };
+                    
+                    return (synthConfigs[planetName] || new Tone.Synth()).toDestination();
+                }
+
+                function convertToAudibleRange(freq) {
+                    let audible = freq;
+                    while (audible < 100) audible *= 2;
+                    while (audible > 800) audible /= 2;
+                    return audible;
+                }
+
+                async function playFullComposition() {
+                    await Tone.start();
+                    showToast('Playing your complete cosmic symphony... 🎵', 'info');
+                    
+                    // Create a complex composition with multiple layers
+                    const bass = new Tone.FMSynth().toDestination();
+                    const melody = new Tone.AMSynth().toDestination();
+                    const harmony = new Tone.PolySynth().toDestination();
+                    
+                    const baseFreq = musicalAnalysis.value.rootFreq;
+                    const scale = [0, 2, 4, 5, 7, 9, 11].map(interval => 
+                        baseFreq * Math.pow(2, interval / 12)
+                    );
+                    
+                    // Play bass line
+                    scale.forEach((freq, i) => {
+                        setTimeout(() => {
+                            bass.triggerAttackRelease(freq / 2, '2n');
+                        }, i * 800);
+                    });
+                    
+                    // Play melody line
+                    setTimeout(() => {
+                        scale.reverse().forEach((freq, i) => {
+                            setTimeout(() => {
+                                melody.triggerAttackRelease(freq, '4n');
+                            }, i * 400);
+                        });
+                    }, 1000);
+                    
+                    // Play harmony
+                    setTimeout(() => {
+                        const chord = [scale[0], scale[2], scale[4]];
+                        harmony.triggerAttackRelease(chord, '1n');
+                    }, 2000);
+                    
+                    // Cleanup
+                    setTimeout(() => {
+                        [bass, melody, harmony].forEach(synth => synth.dispose());
+                    }, 8000);
+                }
+
+                async function playHarmonicSeries() {
+                    await Tone.start();
+                    showToast('Analyzing your harmonic series... 🌈', 'info');
+                    
+                    const fundamental = musicalAnalysis.value.rootFreq / 2;
+                    const synth = new Tone.Synth({
+                        oscillator: { type: 'sine' },
+                        envelope: { attack: 0.1, decay: 0.2, sustain: 0.8, release: 1.5 }
+                    }).toDestination();
+                    
+                    // Play harmonic series (1st through 8th harmonics)
+                    for (let i = 1; i <= 8; i++) {
+                        setTimeout(() => {
+                            const freq = fundamental * i;
+                            synth.triggerAttackRelease(freq, '8n');
+                        }, (i - 1) * 300);
+                    }
+                    
                     setTimeout(() => synth.dispose(), 3000);
                 }
 
-                async function playColorTone(index) {
+                async function playPlanetaryChoir() {
                     await Tone.start();
-                    const baseFreq = 261.63;
-                    const intervals = [0, 2, 4, 5, 7, 9, 11];
-                    const freq = baseFreq * Math.pow(2, intervals[index % 7] / 12);
+                    showToast('Orchestrating planetary frequencies... 🌌', 'info');
                     
-                    const synth = new Tone.Synth().toDestination();
-                    synth.triggerAttackRelease(freq, '4n');
-                    setTimeout(() => synth.dispose(), 800);
+                    const synths = Object.keys(planetaryFrequencies).map(planet => {
+                        const synth = createPlanetarySynth(planet);
+                        const freq = convertToAudibleRange(planetaryFrequencies[planet]);
+                        
+                        setTimeout(() => {
+                            synth.triggerAttackRelease(freq, '2n');
+                        }, Object.keys(planetaryFrequencies).indexOf(planet) * 200);
+                        
+                        setTimeout(() => synth.dispose(), 3000);
+                        return synth;
+                    });
                 }
 
-                function generateVariation() {
-                    const keys = ['C Major', 'D Major', 'E Major', 'F Major', 'G Major', 'A Major', 'B Major'];
-                    musicalKey.value = keys[Math.floor(Math.random() * keys.length)];
-                    tempo.value = Math.round(80 + Math.random() * 60);
-                }
-
-                function shareComposition() {
-                    const text = `🎵✨ Check out my cosmic sound signature! I'm a ${sunSign.value} Sun with ${dominantElement.value} energy, and my personal key is ${musicalKey.value}! ✨🎵`;
+                async function playColorHarmonic(color, index) {
+                    await Tone.start();
                     
-                    if (navigator.share) {
-                        navigator.share({
-                            title: 'My Cosmic Sound Signature',
-                            text: text,
-                            url: window.location.href
-                        });
-                    } else {
-                        navigator.clipboard.writeText(text + ' ' + window.location.href);
-                        alert('🌟 Your cosmic signature copied to clipboard! ✨');
-                    }
+                    const synth = new Tone.Synth({
+                        oscillator: { type: 'triangle' },
+                        envelope: { attack: 0.05, decay: 0.2, sustain: 0.4, release: 0.8 }
+                    }).toDestination();
+                    
+                    synth.triggerAttackRelease(color.frequency, '4n');
+                    setTimeout(() => synth.dispose(), 1000);
+                    
+                    showToast(`${color.note}: ${color.frequency.toFixed(1)}Hz`, 'info');
                 }
 
-                function reset() {
-                    showResults.value = false;
-                    isLoading.value = false;
+                // Advanced UI interactions
+                function focusOnElement(type) {
+                    showToast(`Focusing on ${type} influence...`, 'info');
+                    // Could implement visual highlighting or detailed popup
+                }
+
+                function triggerSuccessCelebration() {
+                    // Confetti celebration
+                    confetti({
+                        particleCount: 100,
+                        spread: 70,
+                        origin: { y: 0.6 },
+                        colors: ['#667eea', '#764ba2', '#f093fb']
+                    });
+                }
+
+                function showToast(message, type = 'info') {
+                    const toast = {
+                        id: Date.now(),
+                        message,
+                        type,
+                        show: false
+                    };
+                    
+                    toasts.value.push(toast);
+                    
+                    nextTick(() => {
+                        toast.show = true;
+                        setTimeout(() => {
+                            toast.show = false;
+                            setTimeout(() => {
+                                const index = toasts.value.indexOf(toast);
+                                if (index > -1) toasts.value.splice(index, 1);
+                            }, 400);
+                        }, 3000);
+                    });
+                }
+
+                // Helper functions for enhanced features
+                function getSignRadius(sign) {
+                    const isImportant = sign === chartAnalysis.value.sunSign || 
+                                       sign === chartAnalysis.value.moonSign || 
+                                       sign === chartAnalysis.value.ascendant;
+                    return isImportant ? 25 : 22;
                 }
 
                 function getSignColor(sign) {
                     return signColors[sign] || '#FFFFFF';
                 }
 
+                function getSignStroke(sign) {
+                    if (sign === chartAnalysis.value.sunSign) return '#FFD700';
+                    if (sign === chartAnalysis.value.moonSign) return '#C0C0C0';
+                    if (sign === chartAnalysis.value.ascendant) return '#FF6B35';
+                    return 'rgba(255,255,255,0.3)';
+                }
+
+                function getSignStrokeWidth(sign) {
+                    const isImportant = sign === chartAnalysis.value.sunSign || 
+                                       sign === chartAnalysis.value.moonSign || 
+                                       sign === chartAnalysis.value.ascendant;
+                    return isImportant ? 3 : 1;
+                }
+
+                function isActiveSign(sign) {
+                    return sign === chartAnalysis.value.sunSign;
+                }
+
+                function getPlanetSize(planetName) {
+                    const sizes = {
+                        'Sun': 20, 'Moon': 16, 'Mercury': 12, 'Venus': 14,
+                        'Mars': 13, 'Jupiter': 18, 'Saturn': 17
+                    };
+                    return sizes[planetName] || 12;
+                }
+
+                function getPlanetColor(planetName) {
+                    const colors = {
+                        'Sun': '#FFD700', 'Moon': '#C0C0C0', 'Mercury': '#FFA500',
+                        'Venus': '#FF69B4', 'Mars': '#FF4500', 'Jupiter': '#4169E1', 'Saturn': '#2F4F4F'
+                    };
+                    return colors[planetName] || '#FFFFFF';
+                }
+
+                function getPlanetStroke(planetName) {
+                    return planetName === 'Sun' ? '#FFA500' : 'rgba(255,255,255,0.5)';
+                }
+
+                function getPlanetSymbol(planetName) {
+                    const symbols = {
+                        'Sun': '☉', 'Moon': '☽', 'Mercury': '☿', 'Venus': '♀',
+                        'Mars': '♂', 'Jupiter': '♃', 'Saturn': '♄'
+                    };
+                    return symbols[planetName] || '●';
+                }
+
                 function getSignSymbol(sign) {
-                    return signSymbols[sign] || '?';
+                    const symbols = {
+                        'Aries': '♈', 'Taurus': '♉', 'Gemini': '♊', 'Cancer': '♋',
+                        'Leo': '♌', 'Virgo': '♍', 'Libra': '♎', 'Scorpio': '♏',
+                        'Sagittarius': '♐', 'Capricorn': '♑', 'Aquarius': '♒', 'Pisces': '♓'
+                    };
+                    return symbols[sign] || '?';
+                }
+
+                function getElementEmoji(element) {
+                    const emojis = { Fire: '🔥', Earth: '🌍', Air: '💨', Water: '🌊' };
+                    return emojis[element] || '✨';
+                }
+
+                function getAspectColor(aspectType) {
+                    const colors = {
+                        'Conjunction': '#FFFFFF', 'Sextile': '#FFD700', 'Square': '#FF4500',
+                        'Trine': '#00FF00', 'Opposition': '#FF0000'
+                    };
+                    return colors[aspectType] || '#CCCCCC';
+                }
+
+                function getAspectWidth(orb) {
+                    return Math.max(1, 4 - orb);
+                }
+
+                function getAspectLineStart(aspect) {
+                    const planet = visiblePlanets.value.find(p => p.name === aspect.planet1);
+                    return {
+                        x: 250 + 115 * Math.cos((planet.degree - 90) * Math.PI / 180),
+                        y: 250 + 115 * Math.sin((planet.degree - 90) * Math.PI / 180)
+                    };
+                }
+
+                function getAspectLineEnd(aspect) {
+                    const planet = visiblePlanets.value.find(p => p.name === aspect.planet2);
+                    return {
+                        x: 250 + 115 * Math.cos((planet.degree - 90) * Math.PI / 180),
+                        y: 250 + 115 * Math.sin((planet.degree - 90) * Math.PI / 180)
+                    };
+                }
+
+                // Premium feature functions
+                async function generateHarmonicVariation() {
+                    showToast('Generating harmonic variation...', 'info');
+                    // Randomly modify tempo and key
+                    const keys = ['A', 'Bb', 'B', 'C', 'C#', 'D', 'Eb', 'E', 'F', 'F#', 'G', 'Ab'];
+                    const modes = ['Ionian', 'Dorian', 'Phrygian', 'Lydian', 'Mixolydian', 'Aeolian', '
+	        const modes = ['Ionian', 'Dorian', 'Phrygian', 'Lydian', 'Mixolydian', 'Aeolian', 'Locrian'];
+                  
+                    musicalAnalysis.value.key = keys[Math.floor(Math.random() * keys.length)] + ' ' + 
+                                               modes[Math.floor(Math.random() * modes.length)];
+                    musicalAnalysis.value.tempo += (Math.random() - 0.5) * 20;
+                    musicalAnalysis.value.complexity += (Math.random() - 0.5) * 2;
+                    
+                    updateEnhancedColorPalette();
+                    showToast('New harmonic variation generated! 🎲', 'success');
+                }
+
+                async function analyzeTransits() {
+                    showToast('Analyzing current planetary transits...', 'info');
+                    
+                    // Simulate transit analysis
+                    await new Promise(r => setTimeout(r, 2000));
+                    
+                    const transitEffects = [
+                        'Jupiter trine natal Sun: Enhanced creativity and optimism',
+                        'Saturn square natal Moon: Emotional restructuring period',
+                        'Mars conjunct natal Mercury: Increased mental energy',
+                        'Venus sextile natal Venus: Harmonious relationships'
+                    ];
+                    
+                    const randomTransit = transitEffects[Math.floor(Math.random() * transitEffects.length)];
+                    showToast(`Current Transit: ${randomTransit}`, 'info');
+                }
+
+                async function exportPremiumAudio() {
+                    showToast('Preparing HD audio export... 💎', 'info');
+                    
+                    // Simulate audio export process
+                    await new Promise(r => setTimeout(r, 3000));
+                    
+                    // Create a simple audio context for demonstration
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const sampleRate = audioContext.sampleRate;
+                    const duration = 10; // 10 seconds
+                    const numSamples = sampleRate * duration;
+                    
+                    // Generate audio data
+                    const audioBuffer = audioContext.createBuffer(2, numSamples, sampleRate);
+                    const leftChannel = audioBuffer.getChannelData(0);
+                    const rightChannel = audioBuffer.getChannelData(1);
+                    
+                    const baseFreq = musicalAnalysis.value.rootFreq;
+                    
+                    for (let i = 0; i < numSamples; i++) {
+                        const time = i / sampleRate;
+                        const sample = Math.sin(2 * Math.PI * baseFreq * time) * 0.3 +
+                                      Math.sin(2 * Math.PI * baseFreq * 1.5 * time) * 0.2 +
+                                      Math.sin(2 * Math.PI * baseFreq * 2 * time) * 0.1;
+                        
+                        leftChannel[i] = sample;
+                        rightChannel[i] = sample;
+                    }
+                    
+                    // Convert to WAV and download
+                    const wavData = audioBufferToWav(audioBuffer);
+                    const blob = new Blob([wavData], { type: 'audio/wav' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `cosmic-symphony-${chartAnalysis.value.sunSign}.wav`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    showToast('Premium HD audio exported! 🎵✨', 'success');
+                }
+
+                function audioBufferToWav(buffer) {
+                    const numChannels = buffer.numberOfChannels;
+                    const sampleRate = buffer.sampleRate;
+                    const format = 1; // PCM
+                    const bitDepth = 16;
+                    
+                    const bytesPerSample = bitDepth / 8;
+                    const blockAlign = numChannels * bytesPerSample;
+                    
+                    const bufferLength = buffer.length;
+                    const dataLength = bufferLength * blockAlign;
+                    const headerLength = 44;
+                    const totalLength = headerLength + dataLength;
+                    
+                    const arrayBuffer = new ArrayBuffer(totalLength);
+                    const view = new DataView(arrayBuffer);
+                    
+                    // WAV header
+                    const writeString = (offset, string) => {
+                        for (let i = 0; i < string.length; i++) {
+                            view.setUint8(offset + i, string.charCodeAt(i));
+                        }
+                    };
+                    
+                    writeString(0, 'RIFF');
+                    view.setUint32(4, totalLength - 8, true);
+                    writeString(8, 'WAVE');
+                    writeString(12, 'fmt ');
+                    view.setUint32(16, 16, true);
+                    view.setUint16(20, format, true);
+                    view.setUint16(22, numChannels, true);
+                    view.setUint32(24, sampleRate, true);
+                    view.setUint32(28, sampleRate * blockAlign, true);
+                    view.setUint16(32, blockAlign, true);
+                    view.setUint16(34, bitDepth, true);
+                    writeString(36, 'data');
+                    view.setUint32(40, dataLength, true);
+                    
+                    // Audio data
+                    let offset = 44;
+                    for (let i = 0; i < bufferLength; i++) {
+                        for (let channel = 0; channel < numChannels; channel++) {
+                            const sample = Math.max(-1, Math.min(1, buffer.getChannelData(channel)[i]));
+                            view.setInt16(offset, sample * 0x7FFF, true);
+                            offset += 2;
+                        }
+                    }
+                    
+                    return arrayBuffer;
+                }
+
+                async function shareAdvancedComposition() {
+                    const shareText = `🎵✨ My Premium Cosmic Analysis:
+                    
+☀️ ${chartAnalysis.value.sunSign} Sun | 🌙 ${chartAnalysis.value.moonSign} Moon | 🌅 ${chartAnalysis.value.ascendant} Rising
+🎹 Musical Key: ${musicalAnalysis.value.key}
+🎼 Harmonic Complexity: ${musicalAnalysis.value.complexity.toFixed(1)}/10
+🌟 Chart Ruler: ${chartAnalysis.value.chartRuler}
+🎵 Root Frequency: ${musicalAnalysis.value.rootFreq.toFixed(1)}Hz
+
+Generated by Astro-Chromatone Premium ✨`;
+                    
+                    if (navigator.share) {
+                        try {
+                            await navigator.share({
+                                title: 'My Premium Cosmic Music Analysis',
+                                text: shareText,
+                                url: window.location.href
+                            });
+                            showToast('Shared successfully! 🌟', 'success');
+                        } catch (err) {
+                            if (err.name !== 'AbortError') {
+                                fallbackShare(shareText);
+                            }
+                        }
+                    } else {
+                        fallbackShare(shareText);
+                    }
+                }
+
+                function fallbackShare(text) {
+                    navigator.clipboard.writeText(text + '\n\n' + window.location.href);
+                    showToast('Analysis copied to clipboard! ✨', 'success');
+                }
+
+                async function downloadDetailedReport() {
+                    showToast('Generating detailed astrological report...', 'info');
+                    
+                    const reportContent = `
+PREMIUM ASTROLOGICAL MUSIC ANALYSIS REPORT
+==========================================
+
+Personal Information:
+- Birth Date: ${birthData.value.date}
+- Birth Time: ${birthData.value.time}
+- Birth Location: ${birthData.value.location}
+
+Astrological Analysis:
+- Sun Sign: ${chartAnalysis.value.sunSign}
+- Moon Sign: ${chartAnalysis.value.moonSign}
+- Rising Sign: ${chartAnalysis.value.ascendant}
+- Chart Ruler: ${chartAnalysis.value.chartRuler}
+- Dominant Element: ${chartAnalysis.value.dominantElement}
+- Element Balance: ${chartAnalysis.value.elementBalance}
+- Chart Pattern: ${chartAnalysis.value.chartPattern}
+- Number of Stelliums: ${chartAnalysis.value.stelliums}
+
+Musical Composition:
+- Primary Key: ${musicalAnalysis.value.key}
+- Modal System: ${musicalAnalysis.value.mode}
+- Base Tempo: ${Math.round(musicalAnalysis.value.tempo)} BPM
+- Harmonic Complexity: ${musicalAnalysis.value.complexity.toFixed(1)}/10
+- Composition Duration: ${Math.round(musicalAnalysis.value.duration)} minutes
+- Root Frequency: ${musicalAnalysis.value.rootFreq.toFixed(2)} Hz
+- Solar Frequency: ${musicalAnalysis.value.solarFreq.toFixed(2)} Hz
+- Lunar Frequency: ${musicalAnalysis.value.lunarFreq.toFixed(2)} Hz
+- Harmonic Ratio: ${musicalAnalysis.value.harmonicRatio}
+- Resonance Quality: ${musicalAnalysis.value.resonanceQuality}
+
+Color Palette Analysis:
+${enhancedColorPalette.value.map((color, index) => 
+  `${index + 1}. ${color.note} - ${color.frequency.toFixed(1)}Hz - ${color.hex}`
+).join('\n')}
+
+Major Aspects:
+${majorAspects.value.map(aspect => 
+  `- ${aspect.planet1} ${aspect.type} ${aspect.planet2} (${aspect.orb.toFixed(1)}° orb)`
+).join('\n')}
+
+Generated by Astro-Chromatone Premium
+Date: ${new Date().toLocaleDateString()}
+Time: ${new Date().toLocaleTimeString()}
+                    `;
+                    
+                    const blob = new Blob([reportContent], { type: 'text/plain' });
+                    const url = URL.createObjectURL(blob);
+                    
+                    const link = document.createElement('a');
+                    link.href = url;
+                    link.download = `cosmic-analysis-${chartAnalysis.value.sunSign}-${new Date().toISOString().split('T')[0]}.txt`;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    
+                    showToast('Detailed report downloaded! 📊', 'success');
+                }
+
+                function bookConsultation() {
+                    showToast('Redirecting to premium consultation booking...', 'info');
+                    
+                    // Simulate consultation booking
+                    setTimeout(() => {
+                        const consultationData = {
+                            service: 'Premium Astrological Music Consultation',
+                            duration: '60 minutes',
+                            price: '$150',
+                            includes: [
+                                'Detailed natal chart analysis',
+                                'Custom music composition',
+                                'Transit timing guidance',
+                                'Harmonic healing recommendations',
+                                'Follow-up support'
+                            ]
+                        };
+                        
+                        alert(`🔮 Premium Consultation Booking
+                        
+Service: ${consultationData.service}
+Duration: ${consultationData.duration}
+Investment: ${consultationData.price}
+
+Includes:
+${consultationData.includes.map(item => `• ${item}`).join('\n')}
+
+Contact us to schedule your personalized session!`);
+                        
+                        showToast('Consultation details displayed! 🔮', 'success');
+                    }, 1500);
+                }
+
+                function resetApp() {
+                    if (confirm('Are you sure you want to create a new analysis? This will clear your current results.')) {
+                        showResults.value = false;
+                        isLoading.value = false;
+                        showToast('Ready for new cosmic analysis! ✨', 'info');
+                    }
                 }
 
                 return {
+                    // Reactive data
                     birthData,
                     isLoading,
                     showResults,
+                    showAspects,
                     loadingMessage,
-                    sunSign,
-                    moonSign,
-                    dominantElement,
-                    musicalKey,
-                    tempo,
-                    colorPalette,
+                    toasts,
+                    chartAnalysis,
+                    musicalAnalysis,
+                    enhancedColorPalette,
+                    visiblePlanets,
+                    majorAspects,
                     zodiacSigns,
-                    generateMusic,
-                    playSignTone,
-                    playScale,
-                    playElementalChord,
-                    playColorTone,
-                    generateVariation,
-                    shareComposition,
-                    reset,
+                    
+                    // Methods
+                    generateAdvancedMusic,
+                    playAdvancedSignTone,
+                    playPlanetaryFrequency,
+                    playFullComposition,
+                    playHarmonicSeries,
+                    playPlanetaryChoir,
+                    playColorHarmonic,
+                    focusOnElement,
+                    generateHarmonicVariation,
+                    analyzeTransits,
+                    exportPremiumAudio,
+                    shareAdvancedComposition,
+                    downloadDetailedReport,
+                    bookConsultation,
+                    resetApp,
+                    
+                    // Helper functions
+                    getSignRadius,
                     getSignColor,
-                    getSignSymbol
+                    getSignStroke,
+                    getSignStrokeWidth,
+                    isActiveSign,
+                    getPlanetSize,
+                    getPlanetColor,
+                    getPlanetStroke,
+                    getPlanetSymbol,
+                    getSignSymbol,
+                    getElementEmoji,
+                    getAspectColor,
+                    getAspectWidth,
+                    getAspectLineStart,
+                    getAspectLineEnd
                 };
             }
         }).mount('#app');
     </script>
 </body>
 </html>
+
+
