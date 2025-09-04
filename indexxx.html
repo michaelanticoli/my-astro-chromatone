@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Michael Anticoli | Strategist</title>
+
+  <!-- Tailwind (optional, for your utility classes) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    /* Base */
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #0A0A0F;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Full-bleed particles layer (behind content) */
+    #particles-js{
+      position: fixed;
+      inset: 0;                  /* top:0 right:0 bottom:0 left:0 */
+      z-index: 0;                /* content sits at z>=2 */
+      pointer-events: none;      /* never block clicks */
+      background:#0A0A0F;
+    }
+    /* Force the auto-generated canvas to edge-align */
+    .particles-js-canvas-el{
+      position: fixed !important;
+      inset: 0 !important;
+      width: 100vw !important;
+      height: 100vh !important;
+      display: block !important;
+    }
+
+    /* Content wrapper sits above particles */
+    .content {
+      position: relative;
+      z-index: 2;
+      isolation: isolate;
+    }
+
+    /* Sections (in normal flow to guarantee visibility) */
+    .section{
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease;
+      position: relative;          /* was absolute; relative is safer */
+      width: 100%;
+      pointer-events: none;
+      background: transparent;
+    }
+    .section.active{
+      opacity: 1 !important;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    /* Project pages (same reveal behavior) */
+    .project-page{
+      min-height: 100vh;
+      padding: 0;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease;
+      position: relative;          /* keep in flow */
+      width: 100%;
+      pointer-events: none;
+      top: 0; left: 0;
+      background: transparent;
+    }
+    .project-page.active{
+      opacity: 1 !important;
+      transform: translateY(0);
+      pointer-events: all;
+    }
+
+    /* Right-side nav dots */
+    .nav-dots{
+      position: fixed;
+      right: 40px;
+      top: 50%;
+      transform: translateY(-50%);
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .nav-dot{
+      width: 12px;
+      height: 12px;
+      border: 2px solid #fff;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+    .nav-dot:hover::after{
+      content: attr(data-label);
+      position: absolute;
+      right: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      white-space: nowrap;
+      font-size: 14px;
+      opacity: 0.7;
+      letter-spacing: 1px;
+    }
+    .nav-dot.active{
+      background: #fff;
+      transform: scale(1.2);
+    }
+
+    .project-card{
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 30px;
+      margin: 15px;
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.03);
+      cursor: pointer;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .project-card:hover{
+      border-color: #fff;
+      transform: translateY(-5px);
+    }
+
+    .back-btn{
+      position: fixed;
+      top: 40px;
+      left: 40px;
+      z-index: 1000;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.3);
+      color: #fff;
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+    .back-btn:hover{
+      background: rgba(255,255,255,0.2);
+      border-color: #fff;
+    }
+
+    .metric-card{
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 20px;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    .metric-card:hover{
+      border-color: rgba(255,255,255,0.3);
+    }
+
+    .image-placeholder{
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      min-height: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 20px 0;
+      color: rgba(255,255,255,0.6);
+    }
+
+    .link-hover{ transition: all 0.3s ease; }
+    .link-hover:hover{ opacity: 0.7; }
+  </style>
+</head>
+<body>
+  <!-- Particles background -->
+  <div id="particles-js"></div>
+
+  <!-- Navigation Dots -->
+  <div class="nav-dots">
+    <div class="nav-dot active" data-section="home" data-label="HOME"></div>
+    <div class="nav-dot" data-section="projects" data-label="PROJECTS"></div>
+    <div class="nav-dot" data-section="cases" data-label="CASE STUDIES"></div>
+    <div class="nav-dot" data-section="sonic" data-label="SONIC IDENTITY"></div>
+    <div class="nav-dot" data-section="contact" data-label="CONTACT"></div>
+  </div>
+
+  <!-- Foreground content -->
+  <div class="content">
+    <!-- Home Section -->
+    <section id="home" class="section active">
+      <div class="text-center">
+        <h1 class="text-6xl mb-4">MICHAEL ANTICOLI</h1>
+        <p class="text-xl opacity-80">Transforming Ideas into Experiences</p>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section">
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="project-card" data-project="buchanans-pina">
+            <h3 class="text-xl mb-4">Buchanan's Piña</h3>
+            <p class="opacity-80">Cultural insights transformed into viral product launch success</p>
+          </div>
+          <div class="project-card" data-project="quantumelodies">
+            <h3 class="text-xl mb-4">Quantumelodies</h3>
+            <p class="opacity-80">Innovative sonic branding system for quantum computing</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Case Studies Section -->
+    <section id="cases" class="section">
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="grid grid-cols-1 gap-8">
+          <div class="project-card" data-project="brand-strategy">
+            <h3 class="text-xl mb-4">Brand Strategy Framework</h3>
+            <p class="opacity-80">Comprehensive approach to brand development and implementation</p>
+          </div>
+          <div class="project-card" data-project="pattern-recognition">
+            <h3 class="text-xl mb-4">Pattern Recognition Systems</h3>
+            <p class="opacity-80">Understanding and implementing deeper brand connections</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sonic Identity Section -->
+    <section id="sonic" class="section">
+      <div class="max-w-4xl mx-auto px-4">
+        <div class="grid grid-cols-1 gap-8">
+          <div class="project-card" data-project="sonar-ai">
+            <h3 class="text-xl mb-4">SonarAI</h3>
+            <p class="opacity-80">AI-Powered Sonic Branding Guide</p>
+          </div>
+          <div class="project-card" data-project="sonic-systems">
+            <h3 class="text-xl mb-4">Sonic Identity Systems</h3>
+            <p class="opacity-80">Creating distinctive audio branding elements</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section">
+      <div class="text-center">
+        <h2 class="text-3xl mb-8">Connect</h2>
+        <div class="space-y-4">
+          <a href="mailto:contact@michaelanticoli.com" class="link-hover block">contact@michaelanticoli.com</a>
+          <a href="/download-pdf" class="link-hover block">Download Portfolio PDF</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Project Pages -->
+
+    <!-- Buchanan's Piña -->
+    <div id="buchanans-pina" class="project-page">
+      <button class="back-btn" onclick="goBack()">← Back</button>
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-5xl mb-8">Buchanan's Piña</h1>
+        <p class="text-xl opacity-80 mb-12">Cultural insights transformed into viral product launch success</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">350%</h3>
+            <p class="opacity-80">Sales Increase</p>
+          </div>
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">2.4M</h3>
+            <p class="opacity-80">Social Impressions</p>
+          </div>
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">85%</h3>
+            <p class="opacity-80">Brand Awareness Lift</p>
+          </div>
+        </div>
+
+        <div class="space-y-8">
+          <div>
+            <h2 class="text-2xl mb-4">Challenge</h2>
+            <p class="opacity-80 leading-relaxed">
+              Buchanan's needed to launch their new Piña variant in a crowded spirits market while connecting with Latino heritage and tropical lifestyle aspirations. The challenge was to create authentic cultural resonance without stereotyping.
+            </p>
+          </div>
+
+          <div class="image-placeholder">[Campaign Visual Assets - Product Photography & Lifestyle Imagery]</div>
+
+          <div>
+            <h2 class="text-2xl mb-4">Strategy</h2>
+            <p class="opacity-80 leading-relaxed mb-4">
+              We developed a comprehensive cultural strategy that celebrated the intersection of Scottish craftsmanship and Caribbean flavor profiles:
+            </p>
+            <ul class="list-disc list-inside opacity-80 space-y-2">
+              <li>Deep ethnographic research in key Latino markets</li>
+              <li>Partnership with cultural influencers and bartenders</li>
+              <li>Authentic storytelling around flavor fusion heritage</li>
+              <li>Strategic timing with summer and cultural celebrations</li>
+            </ul>
+          </div>
+
+          <div class="image-placeholder">[Strategic Framework Diagrams & Cultural Insight Maps]</div>
+
+          <div>
+            <h2 class="text-2xl mb-4">Results</h2>
+            <p class="opacity-80 leading-relaxed">
+              The campaign exceeded all KPIs, becoming Buchanan's most successful product launch. The authentic cultural approach led to organic social amplification and established Piña as a premium tropical variant with strong cultural credibility.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quantumelodies -->
+    <div id="quantumelodies" class="project-page">
+      <button class="back-btn" onclick="goBack()">← Back</button>
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-5xl mb-8">Quantumelodies</h1>
+        <p class="text-xl opacity-80 mb-12">Innovative sonic branding system for quantum computing</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">12</h3>
+            <p class="opacity-80">Patents Filed</p>
+          </div>
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">45%</h3>
+            <p class="opacity-80">User Comprehension Increase</p>
+          </div>
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">8</h3>
+            <p class="opacity-80">Industry Awards</p>
+          </div>
+        </div>
+
+        <div class="space-y-8">
+          <div>
+            <h2 class="text-2xl mb-4">Innovation Challenge</h2>
+            <p class="opacity-80 leading-relaxed">
+              Quantum computing concepts are inherently abstract and difficult to communicate. We needed to create a sonic identity system that could make quantum states, superposition, and entanglement accessible through sound design.
+            </p>
+          </div>
+
+          <div class="image-placeholder">[Quantum Visualization Interface & Audio Waveform Analysis]</div>
+
+          <div>
+            <h2 class="text-2xl mb-4">Sonic Architecture</h2>
+            <p class="opacity-80 leading-relaxed mb-4">
+              We developed a revolutionary approach to sonic branding that translates quantum mechanics principles into audible experiences:
+            </p>
+            <ul class="list-disc list-inside opacity-80 space-y-2">
+              <li>Harmonic frequencies representing quantum states</li>
+              <li>Binaural beats for superposition concepts</li>
+              <li>Spatial audio for entanglement visualization</li>
+              <li>Adaptive algorithms for real-time quantum data sonification</li>
+            </ul>
+          </div>
+
+          <div class="image-placeholder">[Sonic Architecture Diagrams & Frequency Mapping]</div>
+
+          <div>
+            <h2 class="text-2xl mb-4">Impact</h2>
+            <p class="opacity-80 leading-relaxed">
+              Quantumelodies became the industry standard for quantum computing interfaces, adopted by three major quantum computer manufacturers and integrated into educational platforms worldwide.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Brand Strategy Framework -->
+    <div id="brand-strategy" class="project-page">
+      <button class="back-btn" onclick="goBack()">← Back</button>
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-5xl mb-8">Brand Strategy Framework</h1>
+        <p class="text-xl opacity-80 mb-12">Comprehensive approach to brand development and implementation</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">150+</h3>
+            <p class="opacity-80">Brands Transformed</p>
+          </div>
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">$2.3B</h3>
+            <p class="opacity-80">Combined Valuation Impact</p>
+          </div>
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">89%</h3>
+            <p class="opacity-80">Client Retention Rate</p>
+          </div>
+        </div>
+
+        <div class="space-y-8">
+          <div>
+            <h2 class="text-2xl mb-4">Framework Overview</h2>
+            <p class="opacity-80 leading-relaxed">
+              Our proprietary brand strategy framework integrates cultural anthropology, behavioral psychology, and systems thinking to create brands that resonate at both conscious and subconscious levels.
+            </p>
+          </div>
+
+          <div class="image-placeholder">[Brand Strategy Framework Diagram & Process Flow]</div>
+
+          <div>
+            <h2 class="text-2xl mb-4">Methodology</h2>
+            <p class="opacity-80 leading-relaxed mb-4">
+              The framework consists of five interconnected phases:
+            </p>
+            <ul class="list-disc list-inside opacity-80 space-y-2">
+              <li><strong>Archetypal Discovery:</strong> Uncovering the brand's core mythological resonance</li>
+              <li><strong>Cultural Mapping:</strong> Understanding societal contexts and cultural currents</li>
+              <li><strong>Behavioral Architecture:</strong> Designing decision-making triggers and pathways</li>
+              <li><strong>Sensory Systems:</strong> Creating multi-modal brand experiences</li>
+              <li><strong>Dynamic Implementation:</strong> Adaptive deployment across touchpoints</li>
+            </ul>
+          </div>
+
+          <div class="image-placeholder">[Case Study Examples & Framework Applications]</div>
+
+          <div>
+            <h2 class="text-2xl mb-4">Proven Results</h2>
+            <p class="opacity-80 leading-relaxed">
+              Brands utilizing this framework consistently outperform market benchmarks, achieving average brand equity increases of 67% within 18 months of implementation.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pattern Recognition Systems -->
+    <div id="pattern-recognition" class="project-page">
+      <button class="back-btn" onclick="goBack()">← Back</button>
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-5xl mb-8">Pattern Recognition Systems</h1>
+        <p class="text-xl opacity-80 mb-12">Understanding and implementing deeper brand connections</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">94%</h3>
+            <p class="opacity-80">Prediction Accuracy</p>
+          </div>
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">15TB</h3>
+            <p class="opacity-80">Data Processed</p>
+          </div>
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">37</h3>
+            <p class="opacity-80">Fortune 500 Clients</p>
+          </div>
+        </div>
+
+        <div class="space-y-8">
+          <div>
+            <h2 class="text-2xl mb-4">System Architecture</h2>
+            <p class="opacity-80 leading-relaxed">
+              Our pattern recognition system uses advanced machine learning algorithms to identify subtle behavioral patterns in consumer interactions, enabling brands to create deeper, more meaningful connections.
+            </p>
+          </div>
+
+          <div class="image-placeholder">[AI Algorithm Visualization & Data Flow Diagrams]</div>
+
+          <div>
+            <h2 class="text-2xl mb-4">Technology Stack</h2>
+            <p class="opacity-80 leading-relaxed mb-4">
+              The system integrates multiple advanced technologies:
+            </p>
+            <ul class="list-disc list-inside opacity-80 space-y-2">
+              <li>Deep neural networks for sentiment analysis</li>
+              <li>Computer vision for visual brand recognition</li>
+              <li>Natural language processing for conversation analysis</li>
+              <li>Predictive modeling for behavior forecasting</li>
+              <li>Real-time adaptive learning algorithms</li>
+            </ul>
+          </div>
+
+          <div class="image-placeholder">[Technology Architecture & Performance Metrics]</div>
+
+          <div>
+            <h2 class="text-2xl mb-4">Applications</h2>
+            <p class="opacity-80 leading-relaxed">
+              The system has been successfully deployed across retail, entertainment, and technology sectors, consistently improving customer engagement metrics by 40-60% while reducing acquisition costs.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SonarAI -->
+    <div id="sonar-ai" class="project-page">
+      <button class="back-btn" onclick="goBack()">← Back</button>
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-5xl mb-8">SonarAI</h1>
+        <p class="text-xl opacity-80 mb-12">AI-Powered Sonic Branding Guide</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">500K+</h3>
+            <p class="opacity-80">Audio Samples Analyzed</p>
+          </div>
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">73%</h3>
+            <p class="opacity-80">Faster Brand Development</p>
+          </div>
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">28</h3>
+            <p class="opacity-80">Languages Supported</p>
+          </div>
+        </div>
+
+        <div class="space-y-8">
+          <div>
+            <h2 class="text-2xl mb-4">AI-Driven Sonic Strategy</h2>
+            <p class="opacity-80 leading-relaxed">
+              SonarAI revolutionizes sonic branding by using artificial intelligence to analyze acoustic patterns, emotional resonance, and cultural contexts to generate optimal sonic identities for brands.
+            </p>
+          </div>
+
+          <div class="image-placeholder">[AI Interface Design & Sonic Analysis Visualizations]</div>
+
+          <div>
+            <h2 class="text-2xl mb-4">Core Features</h2>
+            <p class="opacity-80 leading-relaxed mb-4">
+              SonarAI provides comprehensive sonic branding capabilities:
+            </p>
+            <ul class="list-disc list-inside opacity-80 space-y-2">
+              <li>Automated brand personality to sound mapping</li>
+              <li>Cultural context-aware audio generation</li>
+              <li>Real-time emotion analysis of sonic elements</li>
+              <li>Cross-platform optimization for different media</li>
+              <li>Competitive sonic landscape analysis</li>
+            </ul>
+          </div>
+
+          <div class="image-placeholder">[Feature Screenshots & Workflow Demonstrations]</div>
+
+          <div>
+            <h2 class="text-2xl mb-4">Industry Impact</h2>
+            <p class="opacity-80 leading-relaxed">
+              SonarAI has been adopted by major advertising agencies and brands worldwide, reducing sonic branding development time by 73% while improving audience recall by an average of 42%.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sonic Identity Systems -->
+    <div id="sonic-systems" class="project-page">
+      <button class="back-btn" onclick="goBack()">← Back</button>
+      <div class="max-w-4xl mx-auto">
+        <h1 class="text-5xl mb-8">Sonic Identity Systems</h1>
+        <p class="text-xl opacity-80 mb-12">Creating distinctive audio branding elements</p>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">200+</h3>
+            <p class="opacity-80">Sonic Identities Created</p>
+          </div>
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">91%</h3>
+            <p class="opacity-80">Brand Recognition Increase</p>
+          </div>
+          <div class="metric-card">
+            <h3 class="text-3xl font-bold">65</h3>
+            <p class="opacity-80">Countries Deployed</p>
+          </div>
+        </div>
+
+        <div class="space-y-8">
+          <div>
+            <h2 class="text-2xl mb-4">Systematic Approach</h2>
+            <p class="opacity-80 leading-relaxed">
+              Our sonic identity systems create cohesive audio brand experiences across all touchpoints, from the initial brand mnemonic to full environmental soundscapes that reinforce brand values.
+            </p>
+          </div>
+
+          <div class="image-placeholder">[Sonic System Architecture & Brand Audio Elements]</div>
+
+          <div>
+            <h2 class="text-2xl mb-4">System Components</h2>
+            <p class="opacity-80 leading-relaxed mb-4">
+              Each sonic identity system includes:
+            </p>
+            <ul class="list-disc list-inside opacity-80 space-y-2">
+              <li><strong>Sonic Logo:</strong> 2-5 second brand identifier</li>
+              <li><strong>Audio Mnemonics:</strong> Memorable sound patterns</li>
+              <li><strong>Voice Guidelines:</strong> Tonal and delivery specifications</li>
+              <li><strong>Environmental Soundscapes:</strong> Ambient brand atmospheres</li>
+              <li><strong>Interactive Audio:</strong> User interface sound design</li>
+            </ul>
+          </div>
+
+          <div class="image-placeholder">[Component Examples & Audio Waveform Comparisons]</div>
+
+          <div>
+            <h2 class="text-2xl mb-4">Global Implementation</h2>
+            <p class="opacity-80 leading-relaxed">
+              Our sonic identity systems have been successfully implemented across diverse markets and cultures, consistently improving brand recognition and emotional connection metrics worldwide.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div><!-- /.content -->
+
+  <!-- Scripts (load particles, then init, then your UI logic) -->
+  <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0/particles.min.js"></script>
+  <script>
+    // Particles init
+    particlesJS('particles-js', {
+      particles: {
+        number: { value: 80, density: { enable: true, value_area: 800 } },
+        color: { value: "#ffffff" },
+        shape: { type: "circle" },
+        opacity: { value: 0.5 },
+        size: { value: 3, random: true },
+        line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+        move: { enable: true, speed: 6 }
+      }
+    });
+
+    // Navigation + pages
+    (function(){
+      const dots = document.querySelectorAll('.nav-dot');
+      const sections = document.querySelectorAll('.section');
+      const projectCards = document.querySelectorAll('.project-card');
+      const projectPages = document.querySelectorAll('.project-page');
+      let currentSection = 'home';
+
+      function navigateToSection(sectionId){
+        currentSection = sectionId;
+        // Update dots
+        dots.forEach(d => d.classList.remove('active'));
+        const activeDot = document.querySelector(`[data-section="${sectionId}"]`);
+        if (activeDot) activeDot.classList.add('active');
+
+        // Hide all
+        sections.forEach(s => s.classList.remove('active'));
+        projectPages.forEach(p => p.classList.remove('active'));
+
+        // Show target
+        const target = document.getElementById(sectionId);
+        if (target) target.classList.add('active');
+
+        // Restore nav dots visibility
+        document.querySelector('.nav-dots').style.opacity = '1';
+      }
+
+      function navigateToProject(projectId){
+        // Hide sections
+        sections.forEach(s => s.classList.remove('active'));
+        projectPages.forEach(p => p.classList.remove('active'));
+
+        // Show project
+        const page = document.getElementById(projectId);
+        if (page) page.classList.add('active');
+
+        // Dim nav dots while in project
+        document.querySelector('.nav-dots').style.opacity = '0.3';
+      }
+
+      dots.forEach(dot => {
+        dot.addEventListener('click', () => {
+          const sectionId = dot.getAttribute('data-section');
+          navigateToSection(sectionId);
+        });
+      });
+
+      projectCards.forEach(card => {
+        card.addEventListener('click', () => {
+          const projectId = card.getAttribute('data-project');
+          navigateToProject(projectId);
+        });
+      });
+
+      window.goBack = function(){
+        document.querySelector('.nav-dots').style.opacity = '1';
+        projectPages.forEach(p => p.classList.remove('active'));
+        const target = document.getElementById(currentSection);
+        if (target) target.classList.add('active');
+      };
+    })();
+  </script>
+</body>
+</html>
